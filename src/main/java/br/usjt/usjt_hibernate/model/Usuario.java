@@ -1,10 +1,16 @@
 package br.usjt.usjt_hibernate.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -29,7 +35,18 @@ public class Usuario {
 	@Column(nullable=true, length=100)
 	private String email;
 	
-	@OneToOne(optional=false)
+	@OneToOne(optional = false, cascade = CascadeType.ALL)//Passo 4
 	@JoinColumn (name = "id_do_meu_perfil")
 	private Perfil perfil;
+	
+	/* Comentado para o passo 5
+	@ManyToMany(cascade = CascadeType.ALL)//Passo 4
+	@JoinTable(name = "tb_usuario_conteudo", 
+	joinColumns = @JoinColumn(name="id_usuario"), 
+	inverseJoinColumns = @JoinColumn(name = "id_consumo"))
+	private List<Conteudo> conteudos;
+	*/
+	
+	@OneToMany(mappedBy = "usuario")
+	private List<Consumo> consumos;
 }
